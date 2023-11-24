@@ -1,11 +1,11 @@
-const DataBase = require("../DataBase");
+const Database = require("../Database");
 
-const dataBase = new DataBase();
+const database = new Database();
 
 class GuildDelete {
     main({ client, guild }) {
         // Remove os dados desse servidor
-        dataBase.deleteGuildData(guild);
+        database.deleteGuildData(guild);
     }
 }
 

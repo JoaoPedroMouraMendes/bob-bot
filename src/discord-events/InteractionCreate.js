@@ -2,8 +2,6 @@ class InteractionCreate {
     async processCommands({ client, interaction }) {
         // Faz com que só responde por comandos
         if (!interaction.isCommand() || interaction.user.bot) return;
-        // Faz o discord esperar por mais tempo a resposta do bot
-        await interaction.deferReply();
         // Obtem o comando
         const command = client.commands.get(interaction.commandName);
         if (command)

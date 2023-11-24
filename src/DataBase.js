@@ -7,7 +7,7 @@ const { main } = require("./discord-events/InteractionCreate");
 const db = path.join(__dirname, "../db.json");
 
 //* Todas as manipulações para o banco de dados
-module.exports = class DataBase {
+module.exports = class Database {
     createGuildData(guild) {
         fs.readFile(db, "utf-8", async (error, data) => {
             if (error) {
@@ -27,7 +27,7 @@ module.exports = class DataBase {
 
             jsonContent.guilds.push({
                 guild_id: `${guild.id}`,
-                main_role: [],
+                main_roles: [],
             });
             // Converte de volta para JSON
             const updateJson = await JSON.stringify(jsonContent, null, 2);
@@ -70,10 +70,15 @@ module.exports = class DataBase {
             const data = fs.readFileSync(db, "utf-8")
             const jsonContent = JSON.parse(data);
             const { index } = await this.getGuildById(id);
+            const main_roles = jsonContent.guilds[index].main_roles;
 
-            // Salva cargos em main_roles
-            jsonContent.guilds[index].main_roles.push(mainRole);
-
+            // Verifica a existencia do mesmo cargo antes de adicionar ao db
+            if (main_roles.find(role => role === mainRole) && main_roles.length > 0) {
+                // Retorna false já que esse cargo já é de main_roles
+                return false;
+            }
+            // Adiciona o cargo ao db
+            main_roles.push(mainRole);
             // Volta o dado para JSON
             const updateJson = JSON.stringify(jsonContent, null, 2);
             // Reescreve o JSON
@@ -85,6 +90,8 @@ module.exports = class DataBase {
         } catch (error) {
             console.error(`Erro ao tentar adicionar cargo a main_roles: ${error}`);
         }
+
+        return true;
     }
 
     async removeMainRole(id, mainRole) {
@@ -92,11 +99,15 @@ module.exports = class DataBase {
             const data = fs.readFileSync(db, "utf-8")
             const jsonContent = JSON.parse(data);
             const { index } = await this.getGuildById(id);
+            const main_roles = jsonContent.guilds[index].main_roles;
 
-            // Remove um cargo de main_roles
-            const indexToRemove = jsonContent.guilds[index].main_roles.findOf(mainRole)
-            if (indexToRemove !== -1)
-                jsonContent.guilds[index].main_roles.splice(indexToRemove, 1);
+            // Busca o cargo a ser removido
+            const indexToRemove = main_roles.indexOf(mainRole);
+            // Caso o cargo não estiver em main_roles
+            if (indexToRemove === -1) 
+                return false;
+            // Remove o cargo
+            main_roles.splice(indexToRemove, 1);
 
             // Volta o dado para JSON
             const updateJson = JSON.stringify(jsonContent, null, 2);
@@ -109,6 +120,8 @@ module.exports = class DataBase {
         } catch (error) {
             console.error(`Erro ao tentar remover cargo de main_roles: ${error}`);
         }
+
+        return true;
     }
 
     async getGuildById(id) {

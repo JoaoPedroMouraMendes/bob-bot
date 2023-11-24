@@ -2,15 +2,6 @@
   "guilds": [
     {
       "guild_id": "1175074941419388928",
-      "main_roles": [
-        "dev",
-        "recanto",
-        "@everyone",
-        "dev"
-      ]
-    },
-    {
-      "guild_id": "1177371046756745276",
       "main_roles": []
     }
   ]

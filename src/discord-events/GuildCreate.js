@@ -1,7 +1,7 @@
 const deployCommands = require("../deployCommads.js");
-const DataBase = require("../DataBase");
+const Database = require("../Database");
 
-const dataBase = new DataBase();
+const database = new Database();
 
 class GuildCreate {
     async botPresentation(guild) {
@@ -15,7 +15,7 @@ class GuildCreate {
         // Adição do slashCommands
         await deployCommands(guild.id);
         // Cadastra o servidor ao banco de dados
-        dataBase.createGuildData(guild);
+        database.createGuildData(guild);
 
         await this.botPresentation(guild);
     }

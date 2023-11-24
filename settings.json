@@ -1,0 +1,8 @@
+{
+    "palette": {
+        "success": "#4AF5AD",
+        "help": "#4FD4E0",
+        "warning": "#FF8E00",
+        "error": "#ff4747"
+    }
+}

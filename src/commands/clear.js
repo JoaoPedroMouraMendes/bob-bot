@@ -6,7 +6,7 @@ module.exports = {
         .setDescription("Exclui tudo de um canal de texto"),
 
     async execute({ interaction }) {
-        await interaction.editReply("Limpando...");
+        await interaction.reply("Limpando...");
     
         const channel = interaction.channel;
         const messages = await channel.messages.fetch();
