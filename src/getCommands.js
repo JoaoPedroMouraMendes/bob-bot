@@ -18,8 +18,8 @@ module.exports = function getCommands() {
             commands.push(command);
         else
             console.error(`O comando em ${filePath} está faltando "data" ou execute`);
-
-        // Retorna todos os comandos
-        return commands;
     }
+
+    // Retorna todos os comandos
+    return commands;
 }

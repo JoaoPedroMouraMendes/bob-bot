@@ -11,13 +11,13 @@ class GuildCreate {
             await channel.send(`Olá`);
     }
 
-    main({ client, guild }) {
+    async main({ client, guild }) {
         // Adição do slashCommands
-        deployCommands(guild.id);
+        await deployCommands(guild.id);
         // Cadastra o servidor ao banco de dados
-        dataBase.createData(guild);
+        dataBase.createGuildData(guild);
 
-        this.botPresentation(guild);
+        await this.botPresentation(guild);
     }
 }
 

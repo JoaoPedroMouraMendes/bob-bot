@@ -12,7 +12,7 @@ const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
 module.exports = async function deployCommads(guildId) {
     try {
         console.log(`Resetando ${commands.length} comandos...`);
-        // PUT
+        // Adiciona o slashCommands a API do discord
         const data = await rest.put(
             Routes.applicationGuildCommands(process.env.CLIENT_ID, guildId),
             { body: commands }

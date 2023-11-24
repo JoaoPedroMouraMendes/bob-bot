@@ -5,7 +5,7 @@ const dataBase = new DataBase();
 class GuildDelete {
     main({ client, guild }) {
         // Remove os dados desse servidor
-        dataBase.deleteData(guild);
+        dataBase.deleteGuildData(guild);
     }
 }
 
