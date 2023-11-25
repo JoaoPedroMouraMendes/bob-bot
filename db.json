@@ -2,7 +2,9 @@
   "guilds": [
     {
       "guild_id": "1175074941419388928",
-      "main_roles": []
+      "main_roles": [
+        "dev"
+      ]
     }
   ]
 }

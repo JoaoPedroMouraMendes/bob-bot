@@ -104,7 +104,7 @@ module.exports = class Database {
             // Busca o cargo a ser removido
             const indexToRemove = main_roles.indexOf(mainRole);
             // Caso o cargo não estiver em main_roles
-            if (indexToRemove === -1) 
+            if (indexToRemove === -1)
                 return false;
             // Remove o cargo
             main_roles.splice(indexToRemove, 1);
@@ -124,14 +124,21 @@ module.exports = class Database {
         return true;
     }
 
-    async getGuildById(id) {
+    async getMainRoles(guildId) {
+        // Obtem os dados do servidor desejado
+        const { guild } = await this.getGuildById(guildId);
+        // retorna seus cargos
+        return guild.main_roles;
+    }
+
+    async getGuildById(guildId) {
         try {
             const data = fs.readFileSync(db, "utf-8");
             const jsonContent = JSON.parse(data);
             // Busca um servidor
-            const guild = jsonContent.guilds.find(guild => guild.guild_id === id);
+            const guild = jsonContent.guilds.find(guild => guild.guild_id === guildId);
             // Busca o index do servidor
-            const index = jsonContent.guilds.findIndex(guild => guild.guild_id === id);
+            const index = jsonContent.guilds.findIndex(guild => guild.guild_id === guildId);
 
             return { guild, index };
         } catch (error) {

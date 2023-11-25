@@ -1,8 +1,10 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const pallete = require("../../settings.json").palette;
 const Database = require("../Database.js");
+const { Permissions } = require("../CommandController.js");
 
 const database = new Database();
+const permissions = new Permissions();
 
 async function addRole(interaction, roleToAdd) {
     // Comunição com o banco de dados para adicionar o cargo
@@ -90,8 +92,11 @@ module.exports = {
     Ela só pode ser usada pelo dono do servidor*/
     async execute({ interaction }) {
         // Verifica se não foi o dono que usou o comando
-        if (interaction.user.id !== interaction.guild.ownerId) {
-            return await interaction.reply("Só o dono do servidor pode executar esse comando");
+        if (!permissions.owner(interaction)) {
+            return await interaction.reply({
+                content: "Só o dono do servidor pode executar esse comando",
+                ephemeral: true
+            });
         }
 
         // Obtem todos os cargos do servidor
