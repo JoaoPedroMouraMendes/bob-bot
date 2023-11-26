@@ -1,5 +1,6 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { Permissions } = require("../CommandController");
+const pallete = require("../../settings.json").palette;
 
 const permissions = new Permissions();
 
@@ -22,7 +23,11 @@ module.exports = {
             });
         }
 
-        await interaction.reply("Limpando...");
+        // Resposta
+        const successEmbed = new EmbedBuilder()
+            .setColor(pallete.success)
+            .setDescription("Limpando");
+        await interaction.reply({ embeds: [successEmbed] });
 
         const channel = interaction.channel;
         const messages = await channel.messages.fetch();
