@@ -4,16 +4,15 @@ require("dotenv").config();
 
 // SlashCommands
 const commands = getCommands().map(command => command.data.toJSON());
-
 // Instância REST
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
 
 // Deploy
 module.exports = async function deployCommads(guildId) {
     try {
-        console.log(`Resetando ${commands.length} comandos...`);
+        console.log(`Implantando ${commands.length} comandos...`);
         // Adiciona o slashCommands a API do discord
-        const data = await rest.put(
+        await rest.put(
             Routes.applicationGuildCommands(process.env.CLIENT_ID, guildId),
             { body: commands }
         );

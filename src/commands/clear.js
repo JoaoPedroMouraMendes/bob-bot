@@ -11,10 +11,13 @@ module.exports = {
     async execute({ interaction }) {
         // Verifica se o usuário pode executar esse comando
         const havePermission = await permissions.mainRole(interaction);
-
         if (!havePermission) {
+            // Resposta
+            const warningEmbed = new EmbedBuilder()
+                .setColor(pallete.warning)
+                .setDescription("Você não tem permissão para executar esse comando");
             return await interaction.reply({
-                content: "Você não tem permissão para executar esse comando",
+                embeds: [warningEmbed],
                 ephemeral: true
             });
         }

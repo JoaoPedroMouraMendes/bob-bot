@@ -12,7 +12,7 @@ async function addRole(interaction, roleToAdd) {
 
     // Caso tenha dado tudo certo no banco de dados
     if (dbResponse) {
-        // Resposta formatada
+        // Resposta
         const successEmbed = new EmbedBuilder()
             .setColor(pallete.success)
             .setTitle(`Cargo ${roleToAdd} foi promovido!`)
@@ -23,7 +23,7 @@ async function addRole(interaction, roleToAdd) {
     }
     // Caso não
     else {
-        // Resposta formatada
+        // Resposta
         const warningEmbed = new EmbedBuilder()
             .setColor(pallete.warning)
             .setTitle(`Erro!`)
@@ -39,7 +39,7 @@ async function removeRole(interaction, roleToRemove) {
 
     // Caso tenha dado tudo certo no banco de dados
     if (dbResponse) {
-        // Resposta formatada
+        // Resposta
         const successEmbed = new EmbedBuilder()
             .setColor(pallete.success)
             .setTitle(`Cargo ${roleToRemove} foi rebaixado!`)
@@ -50,7 +50,7 @@ async function removeRole(interaction, roleToRemove) {
     }
     // Caso não
     else {
-        // Resposta formatada
+        // Resposta
         const warningEmbed = new EmbedBuilder()
             .setColor(pallete.warning)
             .setTitle(`Erro!`)
@@ -60,10 +60,32 @@ async function removeRole(interaction, roleToRemove) {
     }
 }
 
+async function getRoles(interaction) {
+    // Obtem os cargos principais
+    const mainRoles = await database.getMainRoles(interaction.guildId);
+
+    if (mainRoles.length === 0) {
+        // Resposta
+        const warningEmbed = new EmbedBuilder()
+            .setColor(pallete.warning)
+            .setDescription("Não há nenhum cargo principal declarado");
+
+        return await interaction.reply({ embeds: [warningEmbed], ephemeral: true });
+    }
+
+    // Resposta 
+    const successEmbed = new EmbedBuilder()
+        .setColor(pallete.success)
+        .setTitle("Cargos principais:")
+        .setDescription(mainRoles.map(role => `● ${role}`).join("\n"));
+
+    return await interaction.reply({ embeds: [successEmbed] });
+}
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("main-role")
-        .setDescription("Gerenciamento das cargos principais")
+        .setDescription("Gerenciamento dos cargos principais")
         .addSubcommand(subcommand =>
             subcommand
                 .setName("add")
@@ -85,19 +107,37 @@ module.exports = {
                         .setDescription("Cargo desejado para ser rebaixado")
                         .setRequired(true)
                 )
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName("get")
+                .setDescription("Obtem todos os cargos")
         ),
 
     /* Essa função promove e rebaixa cargos, dando e tirando 
     o direito de poder usar certo comandos desse bot.
-    Ela só pode ser usada pelo dono do servidor*/
+    Ela só pode ser usada pelo dono do servidor */
     async execute({ interaction }) {
         // Verifica se não foi o dono que usou o comando
         if (!permissions.owner(interaction)) {
+            // Resposta
+            const warningEmbed = new EmbedBuilder()
+                .setColor(pallete.warning)
+                .setDescription("Só o dono do servidor pode executar esse comando");
+
             return await interaction.reply({
-                content: "Só o dono do servidor pode executar esse comando",
+                embeds: [warningEmbed],
                 ephemeral: true
             });
         }
+
+        // Verifica se foi o subcomando get
+        if (interaction.options.getSubcommand() === "get") {
+            await getRoles(interaction);
+            return;
+        }
+
+        //* Set de parametros para os subcommands "add" e "remove"
 
         // Obtem todos os cargos do servidor
         const roles = interaction.guild.roles.cache
@@ -109,7 +149,7 @@ module.exports = {
 
         // Verifica se o cargo existe
         if (!roles.find(_role => _role.name === role)) {
-            // Mensagem formatada
+            // Resposta
             const warningEmbed = new EmbedBuilder()
                 .setColor(pallete.warning)
                 .setDescription(`O cargo ${role} não existe!`);

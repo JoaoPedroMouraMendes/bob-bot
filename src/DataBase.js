@@ -145,4 +145,15 @@ module.exports = class Database {
             console.error(`Erro ao tentar encontrar um servidor: ${error}`);
         }
     }
+
+    getAllGuilds() {
+        try {
+            const data = fs.readFileSync(db, "utf-8");
+            const jsonContent = JSON.parse(data);
+
+            return jsonContent.guilds;
+        } catch (error) {
+            console.log(`Erro ao tentar obter todos os servidores: ${error}`);
+        }
+    }
 }

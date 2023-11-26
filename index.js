@@ -34,6 +34,9 @@ client.once(Events.ClientReady, client => {
 // Ao entrar em um server
 client.on(Events.GuildCreate, async guild => {
     guildCreate.main({ client, guild });
+
+    console.log(client.guilds.cache);
+    console.log(client.guilds.cache.size);
 });
 
 // Evento para quando o bot é expulso do server
