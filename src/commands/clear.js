@@ -64,7 +64,7 @@ module.exports = {
                 // Resposta
                 const successEmbed2 = new EmbedBuilder()
                     .setColor(pallete.success)
-                    .setDescription(`Limpando mensagens de ${author.username}...`);
+                    .setDescription(`Limpando mensagens de ${author.toString()}...`);
                 await interaction.reply({ embeds: [successEmbed2] });
 
                 // Busca e deleta as mensagens
