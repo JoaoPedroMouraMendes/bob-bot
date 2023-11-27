@@ -90,7 +90,7 @@ module.exports = {
             subcommand
                 .setName("add")
                 .setDescription("Adiciona cargo")
-                .addStringOption(option =>
+                .addRoleOption(option =>
                     option
                         .setName("role")
                         .setDescription("Cargo desejado para ser promovido")
@@ -101,7 +101,7 @@ module.exports = {
             subcommand
                 .setName("remove")
                 .setDescription("Remove cargo")
-                .addStringOption(option =>
+                .addRoleOption(option =>
                     option
                         .setName("role")
                         .setDescription("Cargo desejado para ser rebaixado")
@@ -118,6 +118,12 @@ module.exports = {
     o direito de poder usar certo comandos desse bot.
     Ela só pode ser usada pelo dono do servidor */
     async execute({ interaction }) {
+        // Verifica se foi o subcomando get
+        if (interaction.options.getSubcommand() === "get") {
+            await getRoles(interaction);
+            return;
+        }
+
         // Verifica se não foi o dono que usou o comando
         if (!permissions.owner(interaction)) {
             // Resposta
@@ -131,12 +137,6 @@ module.exports = {
             });
         }
 
-        // Verifica se foi o subcomando get
-        if (interaction.options.getSubcommand() === "get") {
-            await getRoles(interaction);
-            return;
-        }
-
         //* Set de parametros para os subcommands "add" e "remove"
 
         // Obtem todos os cargos do servidor
@@ -145,7 +145,7 @@ module.exports = {
             .map(_role => _role);
 
         // Busca pelo cargo inserido pelo usuário
-        const role = await interaction.options.getString("role", true);
+        const role = await interaction.options.getRole("role", true).name;
 
         // Verifica se o cargo existe
         if (!roles.find(_role => _role.name === role)) {

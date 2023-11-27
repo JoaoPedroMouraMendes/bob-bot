@@ -6,8 +6,24 @@ const permissions = new Permissions();
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("clear")
-        .setDescription("Exclui tudo de um canal de texto"),
+        .setName("clear-messages")
+        .setDescription("Exclui mensagens")
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName("all")
+                .setDescription("Exclui todas as mensagens desse canal")
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName("by-username")
+                .setDescription("Exclui mensagens de uma usuário especifico")
+                .addUserOption(option =>
+                    option
+                        .setName("user")
+                        .setDescription("Usuário que tera suas mensagens excluidas")
+                        .setRequired(true)
+                )
+        ),
 
     async execute({ interaction }) {
         // Verifica se o usuário pode executar esse comando
@@ -23,14 +39,40 @@ module.exports = {
             });
         }
 
-        // Resposta
-        const successEmbed = new EmbedBuilder()
-            .setColor(pallete.success)
-            .setDescription("Limpando");
-        await interaction.reply({ embeds: [successEmbed] });
-
+        // Mensagens do canal
         const channel = interaction.channel;
-        const messages = await channel.messages.fetch();
-        channel.bulkDelete(messages);
+
+        //* Subcomandos
+        switch (interaction.options.getSubcommand()) {
+            // Exclui todas as mensagens do canal
+            case "all":
+
+                // Resposta
+                const successEmbed = new EmbedBuilder()
+                    .setColor(pallete.success)
+                    .setDescription("Limpando...");
+                await interaction.reply({ embeds: [successEmbed] });
+                // Busca e deleta as mensagens
+                const messages = await channel.messages.fetch();
+                channel.bulkDelete(messages);
+
+                break;
+            // Exclui todas as mensagens de um usuário
+            case "by-username":
+
+            const author = await interaction.options.getUser("user", true);
+                // Resposta
+                const successEmbed2 = new EmbedBuilder()
+                    .setColor(pallete.success)
+                    .setDescription(`Limpando mensagens de ${author.username}...`);
+                await interaction.reply({ embeds: [successEmbed2] });
+
+                // Busca e deleta as mensagens
+                const messages2 = await channel.messages.fetch();
+                const filteredMessages = messages2.filter(message => message.author.id === author.id);
+                channel.bulkDelete(filteredMessages);
+
+                break;
+        }
     }
 }
