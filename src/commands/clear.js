@@ -68,8 +68,8 @@ module.exports = {
                 });
 
                 try {
-                    /* Espera a resposta do usuário dentro de 15 segundos
-                    Se ele não responder, esse código vai para o catch */
+                    //* Espera a resposta do usuário dentro de 15 segundos
+                    //* Se ele não responder, esse código vai para o catch
                     const confirmation = await response.awaitMessageComponent({ time: 15_000 });
                     //* Confirmação do usuário
                     if (confirmation.customId === "confirm") {
@@ -134,7 +134,7 @@ module.exports = {
 
             }
                 break;
-            // Exclui todas as mensagens de um usuário
+            //* Exclui todas as mensagens de um usuário
             case "user": {
                 const response = await interaction.deferReply();
                 const author = await interaction.options.getUser("user", true);
@@ -147,7 +147,7 @@ module.exports = {
                 await channel.bulkDelete(filteredMessages);
             }
                 break;
-            // Exclui todas as mensagens de usuários
+            //* Exclui todas as mensagens de usuários
             case "only-users": {
                 const response = await interaction.deferReply();
 
@@ -159,7 +159,7 @@ module.exports = {
                 await channel.bulkDelete(filteredMessages);
             }
                 break;
-            // Exclui todas as mensagens de bots
+            //* Exclui todas as mensagens de bots
             case "only-bots": {
                 // Resposta
                 await interaction.deferReply();

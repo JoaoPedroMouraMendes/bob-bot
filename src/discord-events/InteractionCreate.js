@@ -1,7 +1,7 @@
 class InteractionCreate {
     async processCommands({ client, interaction }) {
         // Faz com que só responde por comandos
-        if (!interaction.isCommand() || interaction.user.bot) return;
+        if (!interaction.isChatInputCommand() || interaction.user.bot) return;
         // Obtem o comando
         const command = client.commands.get(interaction.commandName);
         if (command)

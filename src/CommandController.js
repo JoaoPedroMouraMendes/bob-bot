@@ -1,4 +1,4 @@
-const { REST, Routes } = require("discord.js");
+const { REST, Routes, Collection } = require("discord.js");
 const path = require("node:path");
 const fs = require("node:fs");
 require("dotenv").config();
@@ -48,21 +48,25 @@ module.exports = class CommandController {
     }
 
     //* Atualiza todos os slash commands em todos os servidores
-    async updateCommands() {
+    //* E também atualiza o client com os novos comandos
+    async updateCommands(client) {
+        // Coleção para slashCommands
+        client.commands = new Collection();
+        // atualiza os comandos para o client
+        this.getCommands().forEach(command => { client.commands.set(command.data.name, command) });
+
         // SlashCommands
         const commands = this.getCommands().map(command => command.data.toJSON());
         // Instância REST
         const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
         try {
             console.log(`Atualizando ${commands.length} comandos...`);
-            // Adiciona o slashCommands a todos os servidores desse bot
-            await database.getAllGuilds().forEach(async guild => {
-                await rest.put(
-                    Routes.applicationGuildCommands(process.env.CLIENT_ID, guild.guild_id),
-                    { body: commands }
-                );
-            });
-            console.log("Comandos registrados com sucesso");
+            // Atualiza os slashCommands a todos os servidores desse bot
+            await rest.put(
+                Routes.applicationCommands(process.env.CLIENT_ID),
+                { body: commands }  
+            );
+            console.log(`Comandos registrados com sucesso`);
         } catch (error) {
             console.error(`Erro ao tentar adicionar slashCommands: ${error}`);
         }

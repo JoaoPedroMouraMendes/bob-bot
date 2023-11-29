@@ -9,6 +9,7 @@ const guildMemberAdd = require("./src/discord-events/GuildMemberAdd.js");
 const guildDelete = require("./src/discord-events/GuildDelete.js");
 const guildCreate = require("./src/discord-events/GuildCreate.js");
 const clientReady = require("./src/discord-events/ClientReady.js");
+const guildMemberRemove = require("./src/discord-events/GuildMemberRemove.js");
 
 //* Configurações
 
@@ -24,6 +25,8 @@ const client = new Client({
 client.commands = new Collection();
 // Adiciona os comandos para o client
 commandController.getCommands().forEach(command => { client.commands.set(command.data.name, command) });
+// Atualiza os slashCommands de todas os servidores que o bot está
+commandController.updateCommands(client);
 
 //* Eventos
 
@@ -35,9 +38,6 @@ client.once(Events.ClientReady, client => {
 // Ao entrar em um server
 client.on(Events.GuildCreate, async guild => {
     guildCreate.main({ client, guild });
-
-    console.log(client.guilds.cache);
-    console.log(client.guilds.cache.size);
 });
 
 // Evento para quando o bot é expulso do server
@@ -50,9 +50,16 @@ client.on(Events.GuildMemberAdd, async member => {
     guildMemberAdd.main({ client, member });
 });
 
+// Evento para quando alguém sair do servidor
+client.on(Events.GuildMemberRemove, async member => {
+    guildMemberRemove.main({ client, member });
+})
+
 // Evento para os comandos
 client.on(Events.InteractionCreate, interaction => {
     interactionCreate.main({ client, interaction });
 });
 
 client.login(process.env.TOKEN);
+
+module.exports = client;

@@ -12,9 +12,6 @@ class GuildCreate {
     }
 
     async main({ client, guild }) {
-        // Adição do slashCommands
-        await commandController.deployCommands(guild.id);
-
         await this.botPresentation(guild);
     }
 }
