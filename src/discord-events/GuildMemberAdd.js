@@ -1,7 +1,9 @@
 class GuildMemberAdd {
+    //* Manda boas vindas no primeiro canal de texto
     async newUser(member) {
-        // Manda boas vindas no primeiro canal de texto
-        const channel = member.guild.channels.cache.find(channel => channel.type === 0);
+        // Busca o primeiro canal de texto
+        const channel = guild.channels.cache.find(channel => channel.type === 0 &&
+            channel.rawPosition === 0);
         if (channel)
             await channel.send(`${member} chegou!`);
     }

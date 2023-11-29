@@ -1,5 +1,6 @@
 const { Client, Events, IntentsBitField, Collection } = require("discord.js");
-const getCommands = require("./src/getCommands.js");
+const CommandController = require("./src/CommandController.js");
+const commandController = new CommandController();
 require("dotenv").config();
 
 //* Importação dos eventos
@@ -22,7 +23,7 @@ const client = new Client({
 // Coleção para slashCommands
 client.commands = new Collection();
 // Adiciona os comandos para o client
-getCommands().forEach(command => { client.commands.set(command.data.name, command) });
+commandController.getCommands().forEach(command => { client.commands.set(command.data.name, command) });
 
 //* Eventos
 
