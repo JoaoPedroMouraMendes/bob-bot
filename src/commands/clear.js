@@ -1,8 +1,6 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { Permissions } = require("../CommandController");
+const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder,
+    ButtonBuilder, ButtonStyle, ActionRowBuilder } = require("discord.js");
 const pallete = require("../../settings.json").palette;
-
-const permissions = new Permissions();
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -19,7 +17,7 @@ module.exports = {
                 .setDescription("Exclui mensagens de uma usuário especifico")
                 .addUserOption(option =>
                     option
-                        .setName("user")
+                        .setName("target")
                         .setDescription("Usuário que tera suas mensagens excluidas")
                         .setRequired(true)
                 )
@@ -33,22 +31,10 @@ module.exports = {
             subcommand
                 .setName("only-bots")
                 .setDescription("Exclui todas as mensagens de bots")
-        ),
+        )
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
     async execute({ interaction }) {
-        // Verifica se o usuário pode executar esse comando
-        const havePermission = await permissions.mainRole(interaction);
-        if (!havePermission) {
-            // Resposta
-            const warningEmbed = new EmbedBuilder()
-                .setColor(pallete.warning)
-                .setDescription("Você não tem permissão para executar esse comando");
-            return await interaction.reply({
-                embeds: [warningEmbed],
-                ephemeral: true
-            });
-        }
-
         // Mensagens do canal
         const channel = interaction.channel;
 
@@ -56,39 +42,123 @@ module.exports = {
         switch (interaction.options.getSubcommand()) {
             // Exclui todas as mensagens do canal
             case "all": {
-                await interaction.deferReply();
-                // Busca e deleta as mensagens
-                const messages = await channel.messages.fetch();
-                await channel.bulkDelete(messages);
+                await interaction.deferReply({ ephemeral: true });
+                // Manda primeiro uma mensagem de verificação
+                const warningEmbed = new EmbedBuilder()
+                    .setColor(pallete.warning)
+                    .setTitle("ATENÇÃO!")
+                    .setDescription(`Você está prestes a deletar TODAS as mensagens desse canal. Caso esteja ciente do que está fazendo, confirme precionando o botão "Confirmar".\n
+                    OBS: Você tem 15 segundos para confirmar.`);
+                // Botões
+                const confirmButton = new ButtonBuilder()
+                    .setCustomId("confirm")
+                    .setLabel("Confirmar")
+                    .setStyle(ButtonStyle.Danger);
+                const cancelButton = new ButtonBuilder()
+                    .setCustomId("cancel")
+                    .setLabel("Cancelar")
+                    .setStyle(ButtonStyle.Secondary);
+                const row = new ActionRowBuilder()
+                    .addComponents(confirmButton, cancelButton);
 
-                break;
+                const response = await interaction.editReply({
+                    embeds: [warningEmbed],
+                    components: [row],
+                    ephemeral: true,
+                });
+
+                try {
+                    /* Espera a resposta do usuário dentro de 15 segundos
+                    Se ele não responder, esse código vai para o catch */
+                    const confirmation = await response.awaitMessageComponent({ time: 15_000 });
+                    //* Confirmação do usuário
+                    if (confirmation.customId === "confirm") {
+                        // Feedback
+                        const feedbackEmbed = new EmbedBuilder()
+                            .setColor(pallete.warning)
+                            .setDescription("Excluindo mensagens...")
+                        // Resposta de feedback
+                        await interaction.editReply({
+                            embeds: [feedbackEmbed],
+                            components: []
+                        });
+
+                        // Faz o discord esperar mais tempo
+                        await confirmation.deferUpdate();
+
+                        // Exclusão das mensagens
+                        const messages = await channel.messages.fetch();
+                        await channel.bulkDelete(messages);
+
+                        // Mensagem visível para todos
+                        const userURL = await interaction.user.displayAvatarURL({
+                            format: 'png',
+                            dynamic: true,
+                            size: 4096
+                        });
+                        const globalEmbed = new EmbedBuilder()
+                            .setColor(pallete.success)
+                            .setTitle("Mensagens excluidas!")
+                            .setDescription("Todas as mensagens deste canal foram excluidas!")
+                            .setAuthor({
+                                name: interaction.member.user.username,
+                                iconURL: userURL,
+                            });
+                        await confirmation.followUp({ embeds: [globalEmbed] });
+
+                        // Deleta o feedback
+                        await interaction.deleteReply();
+
+                    } else if (confirmation.customId === "cancel") {
+                        // Resposta ao cancelamento
+                        const cancelEmbed = new EmbedBuilder()
+                            .setColor(pallete.success)
+                            .setDescription("Comando cancelado!");
+
+                        await confirmation.update({
+                            embeds: [cancelEmbed],
+                            components: [],
+                        });
+                    }
+                } catch (e) {
+                    // Resposta ao tempo esgotado
+                    const timerOverEmbed = new EmbedBuilder()
+                        .setColor(pallete.success)
+                        .setDescription("Tempo esgotado!");
+
+                    await interaction.editReply({
+                        embeds: [timerOverEmbed],
+                        components: [],
+                    });
+                }
+
             }
+                break;
             // Exclui todas as mensagens de um usuário
             case "user": {
-                const reply = await interaction.deferReply();
+                const response = await interaction.deferReply();
                 const author = await interaction.options.getUser("user", true);
 
                 // Busca, filtra e deleta as mensagens
                 const messages = await channel.messages.fetch();
                 const filteredMessages = messages.filter
                     (message => message.author.id === author.id ||
-                        message.interaction.id === reply.interaction.id);
-                channel.bulkDelete(filteredMessages);
-
-                break;
+                        message.interaction.id === response.interaction.id);
+                await channel.bulkDelete(filteredMessages);
             }
+                break;
             // Exclui todas as mensagens de usuários
             case "only-users": {
-                const reply = await interaction.deferReply();
+                const response = await interaction.deferReply();
 
                 // Busca, filtra e deleta as mensagens
                 const messages = await channel.messages.fetch();
                 const filteredMessages = messages.filter
-                    (message => !message.author.bot || message.interaction.id === reply.interaction.id);
-                channel.bulkDelete(filteredMessages);
-
-                break;
+                    (message => !message.author.bot ||
+                        message?.interaction.id === response.interaction.id);
+                await channel.bulkDelete(filteredMessages);
             }
+                break;
             // Exclui todas as mensagens de bots
             case "only-bots": {
                 // Resposta
@@ -97,9 +167,9 @@ module.exports = {
                 // Busca, filtra e deleta as mensagens
                 const messages = await channel.messages.fetch();
                 const filteredMessages = messages.filter(message => message.author.bot);
-                channel.bulkDelete(filteredMessages);
-                break;
+                await channel.bulkDelete(filteredMessages);
             }
+                break;
         }
     }
 }
