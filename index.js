@@ -21,12 +21,16 @@ const client = new Client({
     ]
 });
 
-// Coleção para slashCommands
-client.commands = new Collection();
-// Adiciona os comandos para o client
-commandController.getCommands().forEach(command => { client.commands.set(command.data.name, command) });
-// Atualiza os slashCommands de todas os servidores que o bot está
-commandController.updateCommands(client);
+(async () => {
+    // Coleção para slashCommands
+    client.commands = new Collection();
+    // Adiciona os comandos para o client
+    commandController.getCommands().forEach(command => { client.commands.set(command.data.name, command) });
+    // Atualiza os slashCommands de todas os servidores que o bot está
+    await commandController.updateCommands(client);
+    // Inicializa o bot
+    await client.login(process.env.TOKEN);
+})()
 
 //* Eventos
 
@@ -59,7 +63,3 @@ client.on(Events.GuildMemberRemove, async member => {
 client.on(Events.InteractionCreate, interaction => {
     interactionCreate.main({ client, interaction });
 });
-
-client.login(process.env.TOKEN);
-
-module.exports = client;

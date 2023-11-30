@@ -57,7 +57,7 @@ class GuildMemberRemove {
 
     main({ client, member }) {
         // Não faz nada se for o próprio bot que foi removido
-        if (member.id === client.id) return;
+        if (member.user.id === client.user.id) return;
 
         this.memberExit(member);
         this.botExit(member);
