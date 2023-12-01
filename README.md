@@ -1,5 +1,3 @@
-<div style="with:100%; height:2px; background-color: #4AF5AD;" ></div>
-
 ## Bot  Volo
 
 Este é um bot para o discord feito com as funcionalidades mais modernas do discord.js para que o usuário tenha uma boa experiência.
