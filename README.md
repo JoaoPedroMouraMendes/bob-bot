@@ -46,7 +46,7 @@ Dessa forma você terá todas as dependências do projeto no node_modules.
 
 ### Node
 
-Como esperado de uma aplicação javascript fora dos navegadores, esse projeto usa o node, então para que tudo ocorra corretamente certifique-se de ter o node em sua máquina.
+Como esperado de uma aplicação javascript fora dos navegadores, esse projeto usa o Node, então para que tudo ocorra corretamente certifique-se de ter o Node em sua máquina.
 
 ### settings.json
 
