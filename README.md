@@ -19,4 +19,35 @@ Todas suas funcionalidades são acessadas por meio de comandos, para iniciar um 
 
 - Busca imagens aleatórias de cachorros
 
-  
+## Parte Técnica
+
+Aqui falaremos sobre partes técnicas o que pode ser de interesse para alguns desenvolvedores.
+
+### .env
+
+Nesse projeto é utilizado um arquivo .env com informações sigilosas sobre o bot, as variáveis de ambiente são:
+
+```env
+TOKEN=<TOKEN_DO_SEU_BOT>
+CLIENT_ID=<ID_DO_SEU_BOT>
+```
+
+É importante a criação desse arquivo ou adaptação do código para que o projeto funcione corretamente.
+
+### Dependências 
+
+Este projeto tem alguns dependências, para obte-las você poder usar o seguinte comando caso tenha o npm instalado na sua máquina:
+
+```terminal
+npm install
+```
+
+Dessa forma você terá todas as dependências do projeto no node_modules. 
+
+### Node
+
+Como esperado de uma aplicação javascript fora dos navegadores, esse projeto usa o node, então para que tudo ocorra corretamente certifique-se de ter o node em sua máquina.
+
+### settings.json
+
+Nesse arquivo há algumas variáveis que podem ser modificadas, como a "pallete" que é onde se encontra as cores que o bot usa nos embeds.
