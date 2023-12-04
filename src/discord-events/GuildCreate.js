@@ -1,5 +1,5 @@
-const CommandController = require("../CommandController.js");
-const commandController = new CommandController();
+const { EmbedBuilder } = require("discord.js");
+const pallete = require("../../settings.json").palette;
 
 class GuildCreate {
     //* Se apresenta no primeiro canal de texto
@@ -7,8 +7,16 @@ class GuildCreate {
         // Busca o primeiro canal de texto
         const channel = guild.channels.cache.find(channel => channel.type === 0 &&
             channel.rawPosition === 0);
-        if (channel)
-            await channel.send(`Olá`);
+
+        if (channel) {
+            // Mensagem de Apresentação
+            const presentationEmbed = new EmbedBuilder()
+                .setColor(pallete.success)
+                .setTitle("Olá!")
+                .setDescription("Sou Volo, estou pronto para deixar seu servidor com mais vida!");
+
+            await channel.send({ embeds: [presentationEmbed] });
+        }
     }
 
     async main({ client, guild }) {
