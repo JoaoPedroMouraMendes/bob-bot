@@ -1,0 +1,5 @@
+DISPLAY_NAME=Volo
+DESCRIPTION=Bot
+MAIN=index.js
+MEMORY=128
+VERSION=recommended
