@@ -1,6 +1,6 @@
 ## Bot  Volo
 
-Este é um bot para o discord feito com as funcionalidades mais modernas do discord.js para que o usuário tenha uma boa experiência.
+Este é um bot para o discord feito com as funcionalidades mais modernas do discord.js para que o usuário tenha uma boa experiência. Para obter esse bot no seu servidor clice [aqui](https://discord.com/api/oauth2/authorize?client_id=1176247232715030538&permissions=8&scope=bot).
 
 ## O que faz
 
@@ -51,3 +51,7 @@ Como esperado de uma aplicação javascript fora dos navegadores, esse projeto u
 ### settings.json
 
 Nesse arquivo há algumas variáveis que podem ser modificadas, como a "pallete" que é onde se encontra as cores que o bot usa nos embeds.
+
+### Hospedagem
+
+Atualmente este bot está hospedado no site SquareCloud.
