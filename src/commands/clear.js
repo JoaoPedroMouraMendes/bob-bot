@@ -155,7 +155,7 @@ module.exports = {
                 const messages = await channel.messages.fetch();
                 const filteredMessages = messages.filter
                     (message => !message.author.bot ||
-                        message?.interaction.id === response.interaction.id);
+                        message?.interaction?.id === response.interaction.id);
                 await channel.bulkDelete(filteredMessages);
             }
                 break;
