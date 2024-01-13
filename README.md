@@ -49,4 +49,4 @@ Nesse arquivo há algumas variáveis que podem ser modificadas, como a "pallete"
 
 ### Hospedagem
 
-Atualmente este bot está hospedado no site SquareCloud.
+?
