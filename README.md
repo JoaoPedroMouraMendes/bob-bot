@@ -10,11 +10,6 @@ Todas suas funcionalidades são acessadas por meio de comandos, para iniciar um 
 
 - ### Delete de mensagens:
 
-  - Deletar todas mensagens de um usuário em um canal
-  - Deletar todas mensagens de usuários em um canal
-  - Deletar todas mensagens de bots em um canal
-  - Deletar todas mensagens de um canal
-
 - Busca imagens aleatórias de gatos
 
 - Busca imagens aleatórias de cachorros
