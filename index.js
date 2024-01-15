@@ -63,3 +63,15 @@ client.on(Events.GuildMemberRemove, async member => {
 client.on(Events.InteractionCreate, interaction => {
     interactionCreate.main({ client, interaction });
 });
+
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.get('/', (req, res) => {
+    res.send('Olá, Express!');
+});
+
+app.listen(port, () => {
+    console.log(`Servidor Express rodando`);
+});
