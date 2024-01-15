@@ -71,7 +71,7 @@ const app = express();
 const port = 3000;
 
 app.get('/', (req, res) => {
-    res.send('Olá!');
+    res.send('Olá!\nAgora o bot está online.');
 });
 
 app.listen(port, () => {
