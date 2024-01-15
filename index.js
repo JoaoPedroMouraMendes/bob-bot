@@ -64,14 +64,16 @@ client.on(Events.InteractionCreate, interaction => {
     interactionCreate.main({ client, interaction });
 });
 
+//* End Point
+// Para que a hospedagem da aplicação funcione corretamente é necessário um end point
 const express = require('express');
 const app = express();
 const port = 3000;
 
 app.get('/', (req, res) => {
-    res.send('Olá, Express!');
+    res.send('Olá!');
 });
 
 app.listen(port, () => {
-    console.log(`Servidor Express rodando`);
+    console.log(`Servidor rodando`);
 });
