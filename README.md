@@ -2,13 +2,11 @@
 
 Este é um bot para o discord feito com as funcionalidades mais modernas do discord.js para que o usuário tenha uma boa experiência. Para obter esse bot no seu servidor clique [aqui](https://discord.com/api/oauth2/authorize?client_id=1176247232715030538&permissions=8&scope=bot).
 
-## O que faz
+## Como funciona
 
 Todas suas funcionalidades são acessadas por meio de comandos, para iniciar um comando use o prefixo "/" após isso o discord já vai sugerir o auto complete dos comandos.
 
 ## Comandos
-
-- ### Delete de mensagens:
 
 - Busca imagens aleatórias de gatos
 
@@ -49,4 +47,4 @@ Nesse arquivo há algumas variáveis que podem ser modificadas, como a "pallete"
 
 ### Hospedagem
 
-?
+A aplicação está foi hospedada pelo site render.com. Como o plano é gratuito pode ter a chance do bot ficar offline, para resolver isso é necessário carregar uma página web clicando [aqui]([https://volo-bot.onrender.com](https://volo-bot.onrender.com/).) (o carregamento da página pode demorar alguns segundos).
