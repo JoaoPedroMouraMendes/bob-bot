@@ -1,18 +1,18 @@
-## Bot  Volo
+## Bot Volo 🤖
 
 Este é um bot para o discord feito com as funcionalidades mais modernas do discord.js para que o usuário tenha uma boa experiência. Para obter esse bot no seu servidor clique [aqui](https://discord.com/api/oauth2/authorize?client_id=1176247232715030538&permissions=8&scope=bot).
 
-## Como funciona
+## Como funciona 🧠
 
 Todas suas funcionalidades são acessadas por meio de comandos, para iniciar um comando use o prefixo "/" após isso o discord já vai sugerir o auto complete dos comandos.
 
-## Comandos
+## Comandos ⌨️
 
 - Busca imagens aleatórias de gatos
 
 - Busca imagens aleatórias de cachorros
 
-## Parte Técnica
+## Parte Técnica 👩‍💻
 
 Aqui falaremos sobre partes técnicas o que pode ser de interesse para alguns desenvolvedores.
 
