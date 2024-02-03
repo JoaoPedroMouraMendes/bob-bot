@@ -48,4 +48,4 @@ Nesse arquivo há algumas variáveis que podem ser modificadas, como a "pallete"
 
 ### Hospedagem
 
-A aplicação está foi hospedada pelo site "render.com". Como o plano é gratuito pode ter a chance do bot ficar offline, para resolver isso é necessário carregar uma página web clicando [aqui](https://volo-bot.onrender.com/) (o carregamento da página pode demorar alguns segundos).
+A aplicação foi hospedada pelo site "render.com". Como o plano é gratuito pode ter a chance do bot ficar offline, para resolver isso é necessário carregar uma página web clicando [aqui](https://volo-bot.onrender.com/) (o carregamento da página pode demorar alguns segundos).
