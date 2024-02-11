@@ -1,7 +1,7 @@
 ## Bot Volo 🤖
 
 Este é um bot para o discord feito com as funcionalidades mais modernas do discord.js para que o usuário tenha uma boa experiência. Para obter esse bot no seu servidor clique [aqui](https://discord.com/api/oauth2/authorize?client_id=1176247232715030538&permissions=8&scope=bot).
-É possível que o bot fique offline, visualize o tópico clicando [aqui](#Hospedagem) para deixar o bot online.
+É possível que o bot fique offline, visualize o tópico [Hospedagem](#Hospedagem) para deixar o bot online.
 
 ## Como funciona 🧠
 
@@ -48,4 +48,4 @@ Nesse arquivo há algumas variáveis que podem ser modificadas, como a "pallete"
 
 ### Hospedagem
 
-A aplicação está foi hospedada pelo site "render.com". Como o plano é gratuito pode ter a chance do bot ficar offline, para resolver isso é necessário carregar uma página web clicando [aqui](https://volo-bot.onrender.com/) (o carregamento da página pode demorar alguns segundos).
+A aplicação foi hospedada pelo site "render.com". Como o plano é gratuito pode ter a chance do bot ficar offline, para resolver isso é necessário carregar uma página web clicando [aqui](https://volo-bot.onrender.com/) (o carregamento da página pode demorar alguns segundos).
