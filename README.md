@@ -13,6 +13,8 @@ Todas suas funcionalidades são acessadas por meio de comandos, para iniciar um 
 
 - Busca imagens aleatórias de cachorros
 
+- Funções personalizadas para deletar mensagens
+
 ## Parte Técnica 👩‍💻
 
 Aqui falaremos sobre partes técnicas o que pode ser de interesse para alguns desenvolvedores.
